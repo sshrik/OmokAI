@@ -2,7 +2,6 @@
 #include<iostream>
 #include <stdio.h>
 #include <termio.h>
-
 #include"omok.hpp"
 
 using namespace std;
@@ -106,7 +105,17 @@ public:
 class GameBoard
 {
 public:
-	void MoveCursor(Location where)
+	// Constructor with widht and height.
+	GameBoard()	{
+		this -> width = MAX_PAN;
+		this -> height = MAX_PAN;
+	}
+	GameBoard(int width, int height)	{
+		this -> width = width;
+		this -> height = height;
+	}
+
+	void MoveCursor(Location where, int direction, int color)
     {
         this -> cursor = where;
         // Copy Constructor is default instered.
@@ -119,27 +128,47 @@ public:
         {
             for(j = 0; j < MAX_PAN; j++)
             {
-
+				// Check wins...
             }
         }
     }
     
-	bool SetStone(Location where, int color)
-    {
-        if(board[where.GetX()][where.GetY()]->GetSquareType() == BLACK)  {
+	bool SetStone(int color)
+    {	
+        if(this -> board[cursor.GetX()][cursor.GetY()]->GetSquareType() == EMPTY)  {
+			// If GetSquareType is EMPTY, set Stone with given color and return true.
 
+			delete board[cursor.GetX()][cursor.GetY()];
+			// Delete First for unlock memory.
+
+			if(color == BLACK)	{
+				// Set Stone with given Color.
+				this -> board[cursor.GetX()][cursor.GetY()] = new BlakcStone;
+			}
+			else if(color == WHITE)	{
+				// Set Stone with given Color.
+				this -> board[cursor.GetX()][cursor.GetY()] = new WhiteStone;
+			}
+			return true;
         }
+		else{
+			// There is Blocked or early stones are set.
+			return false;
+		}
     }
 
     void AddHistory(Location where)
     {
+		// For extenstion, Add History will be needed to get back to past time.
 
     }
+
+	Location GetCursor() {	return this -> cursor; }
     
 private:
 	Location cursor;
 	vector<Location> actionHistory;
-	vector<int> stoneHistory;
+	vector<Square> stoneHistory;
 	int width, height;
 	Square* board[MAX_PAN][MAX_PAN];
 };
@@ -148,32 +177,31 @@ class Player
 {
 public:
 	Location MakeDecision(GameBoard Board)
+	{
+		Board.SetStone(this->GetPlayerType());
+	}
+	Location MoveCursor(GameBoard Board)
     {
-
-    }
-    
-	Location MoveCursor(Location where)
-    {
-
-    }
-    
-	int GetPlayerType()
-    {
-
-    }
+		
+	}
+	virtual int GetPlayerType() = 0;
     
 };
 
 class BlackPlayer:Player
 {
-	int GetPlayerType()	{
+public:
+	virtual int GetPlayerType()
+	{
 		return BLACK;
 	}
 };
 
 class WhitePlayer:Player
 {
-	int GetPlayerType()	{
+public:
+	virtual int GetPlayerType()
+	{
 		return WHITE;
 	}
 };
@@ -181,12 +209,36 @@ class WhitePlayer:Player
 class GameManager
 {
 public:
-	void GameStart();
-	Player WhosTurn();
-	Player WhosWin();
-	bool IsFinished();
-	Location GetPlayerDicision(Player p);
-	void PrintBoard();
+	void GameStart()
+	{
+
+	}
+
+	Player WhosTurn()
+	{
+
+	}
+	
+	Player WhosWin()
+	{
+
+	}
+	
+	bool IsFinished()
+	{
+
+	}
+	
+	Location GetPlayerDicision(Player p)
+	{
+
+	}
+	
+	void PrintBoard()
+	{
+
+	}
+	
 private:
 	Player m_a, m_b;
 	GameBoard board;
