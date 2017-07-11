@@ -24,33 +24,39 @@ public:
 		this -> y = y;
 	}
 
-	int GetX()	{
-		return x;
-	}
+	int GetX()	{ return x; }
 
-	int GetY()	{
-		return y;
-	}
+	int GetY()	{   return y;   }
 
-	void SetXY(int x, int y)	{
+	void SetXY(int x, int y)    
+    {
 		this->x = x;
 		this->y = y;
 	}
 
-	void SetX(int x)	{
-		this->x = x;
-	}
+	void SetX(int x)    
+    {   
+        if(x >= 0 && x < MAX_PAN)
+        {
+            this -> x = x;
+        }
+        else
+        {
+            this -> x = 0;
+        }
+    }
 
-	void SetY(int y)	{
-		this->y = y;
-	}
-};
-
-class Square
-{
-public:
-	void PrintSquare();
-	int GetSquareType();
+	void SetY(int y)	
+    {    
+        if(y >= 0 && y < MAX_PAN)
+        {
+            this -> y = y;
+        }
+        else
+        {
+            this -> y = 0;
+        }
+    }
 };
 
 class BlackStone:Square
@@ -100,23 +106,62 @@ public:
 class GameBoard
 {
 public:
-	bool MoveCursor(Location Where);
-	int WhosWin();
-	bool SetStone(Location where);
+	void MoveCursor(Location where)
+    {
+        this -> cursor = where;
+        // Copy Constructor is default instered.
+    }
+
+	int WhosWin()
+    {
+        int i, j;
+        for(i = 0; i < MAX_PAN; i++)
+        {
+            for(j = 0; j < MAX_PAN; j++)
+            {
+
+            }
+        }
+    }
+    
+	bool SetStone(Location where, int color)
+    {
+        if(board[where.GetX()][where.GetY()].GetSquareType() == BLACK)  {
+
+        }
+    }
+
+    void AddHistory(Location where)
+    {
+
+    }
+    
 private:
 	Location cursor;
 	vector<Location> actionHistory;
 	vector<int> stoneHistory;
 	int width, height;
-	Square board[19][19];
+	Square board[MAX_PAN][MAX_PAN];
 };
 
 class Player
 {
 public:
-	Location MakeDecision(GameBoard Board);
-	Location MoveCursor(Location where);
-	int GetPlayerType();
+	Location MakeDecision(GameBoard Board)
+    {
+
+    }
+    
+	Location MoveCursor(Location where)
+    {
+
+    }
+    
+	int GetPlayerType()
+    {
+
+    }
+    
 };
 
 class BlackPlayer:Player

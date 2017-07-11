@@ -5,21 +5,21 @@
 #define EMPTY 3
 #define BLOCK 0
 
+#define MAX_PAN 19
 
 // ●○★☆□■△▲▽▼→←↑↓◁◀▷▶┼┌┐┘└┬┤├┴ 
 // αβγδεθω
 
 // Declare class.
 class Location;
-class Square;
-class BlackStone:Square;
-class WhiteStone:Square;
-class EmptyStone:Square;
-class BlockStone:Square;
+class Square
+{
+public:
+	void PrintSquare();
+	int GetSquareType();
+};
 class GameBoard;
 class Player;
-class BlackPlayer:Player;
-class WhitePlayer:Player;
 class GameManager;
 
 // Declare Functions.
