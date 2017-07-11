@@ -59,7 +59,7 @@ public:
     }
 };
 
-class BlackStone:Square
+class BlackStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
@@ -70,7 +70,7 @@ public:
 	}
 };
 
-class WhiteStone:Square
+class WhiteStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
@@ -81,7 +81,7 @@ public:
 	}
 };
 
-class EmptyStone:Square
+class EmptyStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
@@ -92,7 +92,7 @@ public:
 	}
 };
 
-class BlockStone:Square
+class BlockStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
@@ -126,7 +126,7 @@ public:
     
 	bool SetStone(Location where, int color)
     {
-        if(board[where.GetX()][where.GetY()].GetSquareType() == BLACK)  {
+        if(board[where.GetX()][where.GetY()]->GetSquareType() == BLACK)  {
 
         }
     }
@@ -141,7 +141,7 @@ private:
 	vector<Location> actionHistory;
 	vector<int> stoneHistory;
 	int width, height;
-	Square board[MAX_PAN][MAX_PAN];
+	Square* board[MAX_PAN][MAX_PAN];
 };
 
 class Player
