@@ -15,8 +15,8 @@ class Location;
 class Square
 {
 public:
-	void PrintSquare();
-	int GetSquareType();
+	virtual void PrintSquare();
+	virtual int GetSquareType();
 };
 class GameBoard;
 class Player;

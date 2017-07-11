@@ -62,10 +62,10 @@ public:
 class BlackStone:Square
 {
 public:
-	void PrintSquare()	{
+	virtual void PrintSquare()	{
 		cout << "●";
 	}
-	int GetSquareType()	{
+	virtual int GetSquareType()	{
 		return BLACK;
 	}
 };
@@ -73,10 +73,10 @@ public:
 class WhiteStone:Square
 {
 public:
-	void PrintSquare()	{
+	virtual void PrintSquare()	{
 		cout << "○";
 	}
-	int GetSquareType()	{
+	virtual int GetSquareType()	{
 		return WHITE;
 	}
 };
@@ -84,10 +84,10 @@ public:
 class EmptyStone:Square
 {
 public:
-	void PrintSquare()	{
+	virtual void PrintSquare()	{
 		cout << "┼";
 	}
-	int GetSquareType()	{
+	virtual int GetSquareType()	{
 		return EMPTY;
 	}
 };
@@ -95,10 +95,10 @@ public:
 class BlockStone:Square
 {
 public:
-	void PrintSquare()	{
+	virtual void PrintSquare()	{
 		cout << "■";
 	}
-	int GetSquareType()	{
+	virtual int GetSquareType()	{
 		return BLOCK;
 	}
 };
