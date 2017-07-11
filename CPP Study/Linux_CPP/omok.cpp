@@ -1,9 +1,152 @@
-#include"omok.hpp"
+#include<vector>
 #include<iostream>
 #include <stdio.h>
 #include <termio.h>
 
+#include"omok.hpp"
+
 using namespace std;
+
+class Location
+{
+private:
+	int x, y;
+public:
+	Location() 
+	{
+		this -> x = 0;
+		this -> y = 0;
+	}
+
+	Location(int x, int y)
+	{
+		this -> x = x;
+		this -> y = y;
+	}
+
+	int GetX()	{
+		return x;
+	}
+
+	int GetY()	{
+		return y;
+	}
+
+	void SetXY(int x, int y)	{
+		this->x = x;
+		this->y = y;
+	}
+
+	void SetX(int x)	{
+		this->x = x;
+	}
+
+	void SetY(int y)	{
+		this->y = y;
+	}
+};
+
+class Square
+{
+public:
+	void PrintSquare();
+	int GetSquareType();
+};
+
+class BlackStone:Square
+{
+public:
+	void PrintSquare()	{
+		cout << "●";
+	}
+	int GetSquareType()	{
+		return BLACK;
+	}
+};
+
+class WhiteStone:Square
+{
+public:
+	void PrintSquare()	{
+		cout << "○";
+	}
+	int GetSquareType()	{
+		return WHITE;
+	}
+};
+
+class EmptyStone:Square
+{
+public:
+	void PrintSquare()	{
+		cout << "┼";
+	}
+	int GetSquareType()	{
+		return EMPTY;
+	}
+};
+
+class BlockStone:Square
+{
+public:
+	void PrintSquare()	{
+		cout << "■";
+	}
+	int GetSquareType()	{
+		return BLOCK;
+	}
+};
+
+class GameBoard
+{
+public:
+	bool MoveCursor(Location Where);
+	int WhosWin();
+	bool SetStone(Location where);
+private:
+	Location cursor;
+	vector<Location> actionHistory;
+	vector<int> stoneHistory;
+	int width, height;
+	Square board[19][19];
+};
+
+class Player
+{
+public:
+	Location MakeDecision(GameBoard Board);
+	Location MoveCursor(Location where);
+	int GetPlayerType();
+};
+
+class BlackPlayer:Player
+{
+	int GetPlayerType()	{
+		return BLACK;
+	}
+};
+
+class WhitePlayer:Player
+{
+	int GetPlayerType()	{
+		return WHITE;
+	}
+};
+
+class GameManager
+{
+public:
+	void GameStart();
+	Player WhosTurn();
+	Player WhosWin();
+	bool IsFinished();
+	Location GetPlayerDicision(Player p);
+	void PrintBoard();
+private:
+	Player m_a, m_b;
+	GameBoard board;
+};
+
 
 int getch(){
     int ch;
@@ -20,65 +163,4 @@ int getch(){
     ch = getchar();
     tcsetattr(0, TCSAFLUSH, &save);
     return ch;
-}
-
-Location Player::MakeDecision(GameBoard Board)
-{
-    return Location(0, 0);
-}
-
-Location Player::MoveCursor(Location where)
-{
-    return Location(0, 0);
-}
-
-void GameManager::GameStart()   
-{
-
-}
-
-Player GameManager::WhosTurn()
-{
-    return Player();
-}
-
-Player GameManager::WhosWin()
-{
-
-}
-
-bool GameManager::IsFinished()
-{
-    return true;
-}
-
-Location GameManager::GetPlayerDicision(Player p)
-{
-    return Location(0, 0);
-}
-
-void GameManager::PrintBoard()
-{
-
-}
-
-bool GameBoard::MoveCursor(Location Where)  
-{
-    return true;
-}
-
-int GameBoard::WhosWin()  
-{
-    return BLACK;
-}
-
-bool GameBoard::SetStone(Location where)  
-{
-    return true;
-}
-
-int main() {
-    cout << "Hello World!";
-
-    return 0;
 }
