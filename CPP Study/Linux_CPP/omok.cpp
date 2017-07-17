@@ -213,34 +213,27 @@ public:
 		this -> cursor = Location(0,0);
 	}
 
-	void MoveCursor(Location where, int direction, int color)
-    {
+	int MoveCursor(int direction, int color) {
 		// Move Cursor with give color and direction.
 		// And Move Cursor with given direction.
-        this -> cursor = where;
-        // Copy Constructor is default instered.
+		return this->cursor.move(direction, this -> border);
     }
 
-	int WhosWin()
-    {
+	int WhosWin() {
         int i, j;
-        for(i = 0; i < MAX_PAN; i++)
-        {
-            for(j = 0; j < MAX_PAN; j++)
-            {
+        for(i = 0; i < MAX_PAN; i++) {
+            for(j = 0; j < MAX_PAN; j++) {
 				// Check wins...
             }
         }
     }
     
-	bool SetStone(int color)
-    {	
+	bool SetStone(int color) {
+		// Set Stone at now cursor, with given color.
         if(this -> board[cursor.GetX()][cursor.GetY()]->GetSquareType() == EMPTY)  {
 			// If GetSquareType is EMPTY, set Stone with given color and return true.
-
 			delete board[cursor.GetX()][cursor.GetY()];
 			// Delete First for unlock memory.
-
 			if(color == BLACK)	{
 				// Set Stone with given Color.
 				this -> board[cursor.GetX()][cursor.GetY()] = new BlackStone;
@@ -257,8 +250,7 @@ public:
 		}
     }
 
-    void AddHistory(Location where)
-    {
+    void AddHistory(Location where) {
 		// For extenstion, Add History will be needed to get back to past time.
 
     }
@@ -273,15 +265,12 @@ private:
 	Square* board[MAX_PAN][MAX_PAN];
 };
 
-class Player
-{
+class Player {
 public:
-	Location MakeDecision(GameBoard Board)
-	{
+	Location MakeDecision(GameBoard Board) {
 		Board.SetStone(this->GetPlayerType());
 	}
-	Location MoveCursor(GameBoard Board)
-    {
+	Location MoveCursor(GameBoard Board) {
 		// Moving cursor around. If input is "wasd" or arrows, move.
 		// if input is space or enter, do MakeDecision();	
 	}
@@ -289,11 +278,9 @@ public:
     
 };
 
-class BlackPlayer:Player
-{
+class BlackPlayer:Player {
 public:
-	virtual int GetPlayerType()
-	{
+	virtual int GetPlayerType() {
 		return BLACK;
 	}
 };
@@ -301,8 +288,7 @@ public:
 class WhitePlayer:Player
 {
 public:
-	virtual int GetPlayerType()
-	{
+	virtual int GetPlayerType() {
 		return WHITE;
 	}
 };
@@ -310,39 +296,34 @@ public:
 class GameManager
 {
 public:
-	void GameStart()
-	{
+	void GameStart() {
 
 	}
 
-	Player* WhosTurn()
-	{
+	Player* WhosTurn() {
 
 	}
 	
-	Player* WhosWin()
-	{
+	Player* WhosWin() {
 
 	}
 	
-	bool IsFinished()
-	{
+	bool IsFinished() {
 
 	}
 	
-	Location GetPlayerDicision(Player* p)
-	{
+	Location GetPlayerDicision(Player* p) {
 
 	}
 	
-	void PrintBoard()
-	{
-
+	void PrintBoard() {
+		// print board with each square information.
 	}
 	
 private:
-	Player* m_a;
-	Player* m_b;
+	Player* black_player;
+	Player* white_player;
+	Player* now_turn;
 	GameBoard board;
 };
 
