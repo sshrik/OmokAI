@@ -37,6 +37,7 @@ int main()  {
     for(int i = 0; i < MAX_PAN; i++)    {
         for(int j = 0; j < MAX_PAN; j++)    {
             board[i][j] -> PrintSquare();
+            cout << " ";
         }
         cout << endl;
     }
