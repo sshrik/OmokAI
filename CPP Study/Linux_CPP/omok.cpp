@@ -84,7 +84,7 @@ class EmptyStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
-		cout << "┼";
+		cout << "╋";
 	}
 	virtual int GetSquareType()	{
 		return EMPTY;
@@ -107,12 +107,18 @@ class GameBoard
 public:
 	// Constructor with widht and height.
 	GameBoard()	{
+		// Default GameBoard Constructor. Initialize with default value (MAX_PAN, MAX_PAN).
+		// And set Cursor defaul ( 0, 0 ).
 		this -> width = MAX_PAN;
 		this -> height = MAX_PAN;
+		this -> cursor = Location(0,0);
 	}
-	GameBoard(int width, int height)	{
-		this -> width = width;
-		this -> height = height;
+	GameBoard(int _width, int _height)	{
+		// Initialize with expected value (_width, _height)
+		// And set Cursor defaul ( 0, 0 ).
+		this -> width = _width;
+		this -> height = _height;
+		this -> cursor = Location(0,0);
 	}
 
 	void MoveCursor(Location where, int direction, int color)
@@ -143,7 +149,7 @@ public:
 
 			if(color == BLACK)	{
 				// Set Stone with given Color.
-				this -> board[cursor.GetX()][cursor.GetY()] = new BlakcStone;
+				this -> board[cursor.GetX()][cursor.GetY()] = new BlackStone;
 			}
 			else if(color == WHITE)	{
 				// Set Stone with given Color.
@@ -168,7 +174,7 @@ public:
 private:
 	Location cursor;
 	vector<Location> actionHistory;
-	vector<Square> stoneHistory;
+	vector<Square*> stoneHistory;
 	int width, height;
 	Square* board[MAX_PAN][MAX_PAN];
 };
@@ -182,7 +188,8 @@ public:
 	}
 	Location MoveCursor(GameBoard Board)
     {
-		
+		// Moving cursor around. If input is "wasd" or arrows, move.
+		// if input is space or enter, do MakeDecision();	
 	}
 	virtual int GetPlayerType() = 0;
     
@@ -214,12 +221,12 @@ public:
 
 	}
 
-	Player WhosTurn()
+	Player* WhosTurn()
 	{
 
 	}
 	
-	Player WhosWin()
+	Player* WhosWin()
 	{
 
 	}
@@ -229,7 +236,7 @@ public:
 
 	}
 	
-	Location GetPlayerDicision(Player p)
+	Location GetPlayerDicision(Player* p)
 	{
 
 	}
@@ -240,7 +247,8 @@ public:
 	}
 	
 private:
-	Player m_a, m_b;
+	Player* m_a;
+	Player* m_b;
 	GameBoard board;
 };
 
