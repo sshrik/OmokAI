@@ -2,23 +2,23 @@
 #include<iostream>
 #include <stdio.h>
 #include <termio.h>
-#include"omok.hpp"
+#include "omok.hpp"
 
 using namespace std;
 
-class Location
-{
+class Location {
 private:
+	// Member Variable which have x, y coordinate information.
 	int x, y;
 public:
-	Location() 
-	{
+	Location() {
+		// Default Initializer, init with (0, 0).
 		this -> x = 0;
 		this -> y = 0;
 	}
 
-	Location(int x, int y)
-	{
+	Location(int x, int y) {
+		// Initialize with input value (x, y).
 		this -> x = x;
 		this -> y = y;
 	}
@@ -27,14 +27,12 @@ public:
 
 	int GetY()	{   return y;   }
 
-	void SetXY(int x, int y)    
-    {
+	void SetXY(int x, int y)    {
 		this->x = x;
 		this->y = y;
 	}
 
-	void SetX(int x)    
-    {   
+	void SetX(int x) {   
         if(x >= 0 && x < MAX_PAN)
         {
             this -> x = x;
@@ -45,8 +43,7 @@ public:
         }
     }
 
-	void SetY(int y)	
-    {    
+	void SetY(int y) {    
         if(y >= 0 && y < MAX_PAN)
         {
             this -> y = y;
@@ -56,13 +53,105 @@ public:
             this -> y = 0;
         }
     }
+	int move(int direction, Location border)	{
+		// move loctaion with given direction.
+		if(direction == EAST)	{
+			// x + 1, if x is larger then border.GetX(), return -1. else, return 0.
+			if(this -> x + 1 >= border.GetX())	{
+				return -1;
+			}
+			else {
+				this -> x = this -> x + 1;
+				return 0;
+			}
+		}
+		else if(direction == WEST) {
+			// x - 1, if x is lower then 0, return -1. else, return 0.
+			if(this -> x - 1 < 0)	{
+				return -1;
+			}
+			else {
+				this -> x = this -> x - 1;
+				return 0;
+			}
+		}
+		else if(direction == SOUTH) {
+			// y + 1, if x is larger then border.GetY(), return -1. else, return 0.
+			if(this -> y + 1 >= border.GetY())	{
+				return -1;
+			}
+			else {
+				this -> y = this -> y + 1;
+				return 0;
+			}
+		}
+		else if(direction == NORTH) {
+			// y - 1, if x is lower then 0, return -1. else, return 0.
+			if(this -> y - 1 < 0)	{
+				return -1;
+			}
+			else {
+				this -> y = this -> y - 1;
+				return 0;
+			}
+		}
+		else if(direction == EAST * SOUTH) {
+			// x + 1, if x is larger then border.GetX(), return -1. else, return 0.
+			// y + 1, if x is larger then border.GetY(), return -1. else, return 0.
+			if(this->move(EAST, border) + this->move(SOUTH, border)	< 0)	{
+				// Recursive call of move.
+				return -1;
+			}
+			else {
+				return 0;
+			}
+		}
+		else if(direction == EAST * NORTH) {
+			// x + 1, if x is larger then border.GetX(), return -1. else, return 0.
+			// y - 1, if x is lower then 0, return -1. else, return 0.
+			if(this->move(EAST, border) + this->move(NORTH, border)	< 0)	{
+				// Recursive call of move.
+				return -1;
+			}
+			else {
+				return 0;
+			}
+		}
+		else if(direction == WEST * SOUTH) {
+			// x - 1, if x is lower then 0, return -1. else, return 0.
+			// y + 1, if x is larger then border.GetY(), return -1. else, return 0.
+			if(this->move(WEST, border) + this->move(SOUTH, border)	< 0)	{
+				// Recursive call of move.
+				return -1;
+			}
+			else {
+				return 0;
+			}
+		}
+		else if(direction == WEST * NORTH) {
+			// x - 1, if x is lower then 0, return -1. else, return 0.
+			// y - 1, if x is lower then 0, return -1. else, return 0.
+			if(this->move(WEST, border) + this->move(NORTH, border)	< 0)	{
+				// Recursive call of move.
+				return -1;
+			}
+			else {
+				return 0;
+			}
+		}
+		else {
+			// -2 mean error of return.
+			return -2;
+		}
+	}
 };
 
 class BlackStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
-		cout << "●";
+		// Print Black Stone. This is Unicode( UTF-8 ), so print " ", too.
+		cout << "○ ";
 	}
 	virtual int GetSquareType()	{
 		return BLACK;
@@ -73,7 +162,8 @@ class WhiteStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
-		cout << "○";
+		// Print White Stone. This is Unicode( UTF-8 ), so print " ", too.
+		cout << "● ";
 	}
 	virtual int GetSquareType()	{
 		return WHITE;
@@ -84,7 +174,8 @@ class EmptyStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
-		cout << "╋";
+		// Print Empty Stone. This is Unicode( UTF-8 ), so print " ", too.
+		cout << "╋ ";
 	}
 	virtual int GetSquareType()	{
 		return EMPTY;
@@ -95,7 +186,8 @@ class BlockStone:public Square
 {
 public:
 	virtual void PrintSquare()	{
-		cout << "■";
+		// Print Block Stone. This is Unicode( UTF-8 ), so print " ", too.
+		cout << "■ ";
 	}
 	virtual int GetSquareType()	{
 		return BLOCK;
@@ -108,21 +200,23 @@ public:
 	// Constructor with widht and height.
 	GameBoard()	{
 		// Default GameBoard Constructor. Initialize with default value (MAX_PAN, MAX_PAN).
-		// And set Cursor defaul ( 0, 0 ).
-		this -> width = MAX_PAN;
-		this -> height = MAX_PAN;
+		// And set Cursor defaul ( 0, 0 ). Cursor is not pointer variable, so not need to have "new" keyword.
+		this -> border.SetX(MAX_PAN);
+		this -> border.SetY(MAX_PAN);
 		this -> cursor = Location(0,0);
 	}
 	GameBoard(int _width, int _height)	{
 		// Initialize with expected value (_width, _height)
-		// And set Cursor defaul ( 0, 0 ).
-		this -> width = _width;
-		this -> height = _height;
+		// And set Cursor defaul ( 0, 0 ). Cursor is not pointer variable, so not need to have "new" keyword.
+		this -> border.SetX(_width);
+		this -> border.SetY(_height);
 		this -> cursor = Location(0,0);
 	}
 
 	void MoveCursor(Location where, int direction, int color)
     {
+		// Move Cursor with give color and direction.
+		// And Move Cursor with given direction.
         this -> cursor = where;
         // Copy Constructor is default instered.
     }
@@ -173,9 +267,9 @@ public:
     
 private:
 	Location cursor;
+	Location border;
 	vector<Location> actionHistory;
 	vector<Square*> stoneHistory;
-	int width, height;
 	Square* board[MAX_PAN][MAX_PAN];
 };
 

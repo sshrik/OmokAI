@@ -7,6 +7,13 @@
 
 #define MAX_PAN 19
 
+#define EAST	2
+#define WEST	3
+#define SOUTH	5
+#define NORTH	7
+// We can use it like EAST * SOUTH or just SOUTH.
+
+
 // ●○★☆□■△▲▽▼→←↑↓◁◀▷▶┼┌┐┘└┬┤├┴ 
 // αβγδεθω
 // ┠╋╋┿╊╉╈╇╆╅╄╃╀┾┽┺╂┼
